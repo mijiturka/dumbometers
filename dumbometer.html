@@ -35,7 +35,7 @@
 </div>
 
 <div class="controls">
-	<a href="#" onclick="increase(thermometer)">
+	<a href="#" onclick="hit_api(thermometer)">
 		<img src="up.png" />
 	</a>
 </div>
@@ -66,9 +66,15 @@
 </script>
 
 <script>
+	var url = "http://localhost:5000"
+	function hit_api(dumbometer) {
+		fetch(url + '/up')
+			.then(response => console.log(response.status))
+			.then(result => increase(dumbometer))
+	}
 	function increase(dumbometer) {
+		dumbometer.setCurrentValue(dumbometer._value.current+1);
 		console.log(dumbometer._value.current)
-		dumbometer.setCurrentValue(dumbometer._value.current+1)
 	}
 </script>
 
