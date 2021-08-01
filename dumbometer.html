@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>DUMBOMETER</title>
+	<style>
+		body {
+			padding: 0 1rem;
+			font-family: sans-serif;
+		}
+		svg {
+			border: 1px dashed #AAA;
+		}
+
+		h1 {
+			font-size: 1.5rem;
+		}
+
+		.controls {
+			position: fixed;
+			right: 2rem;
+			bottom: 1rem;
+		}
+	</style>
+
+</head>
+<body>
+
+<div align="center">
+	<h1>ТЪПОМЕР / DUMBOMETER / TONTÓMETRO / STOMMETER / STUPIDMETRE</h1>
+</div>
+
+<div align="center">
+	<div id="container"></div>
+</div>
+
+<div class="controls">
+	<a href="#" onclick="increase(thermometer)">
+		<img src="up.png" />
+	</a>
+</div>
+
+<!-- Scripts -->
+
+<script src="d3/d3.v7.min.js"></script>
+<script src="d3-thermometer/thermometer.min.js"></script>
+<script>
+	var thermometer = new Thermometer({
+		width: 400,
+		height: 800,
+
+		tubeWidth: 140,
+		bulbRadius: 160,
+
+		bulbShineColor: "#8c338a",
+		mercuryColor: "#4e2462",
+	});
+
+	var container = document.getElementById('container');
+
+	// container, currentTemp, minTemp, maxTemp
+	thermometer.render(container, 11, 1, 100);
+
+	thermometer.setCurrentValue(13);
+
+</script>
+
+<script>
+	function increase(dumbometer) {
+		console.log(dumbometer._value.current)
+		dumbometer.setCurrentValue(dumbometer._value.current+1)
+	}
+</script>
+
+</body>
+</html>
