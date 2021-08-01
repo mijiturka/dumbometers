@@ -8,7 +8,7 @@ stupidity = 0
 def up():
     global stupidity
     stupidity += 1
-    response = make_response('')
+    response = make_response({'stupidity': stupidity})
     # FIXME
     response.headers['Access-Control-Allow-Origin'] = '*'
     return response

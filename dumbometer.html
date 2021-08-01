@@ -69,11 +69,16 @@
 	var url = "http://localhost:5000"
 	function hit_api(dumbometer) {
 		fetch(url + '/up')
-			.then(response => console.log(response.status))
-			.then(result => increase(dumbometer))
+			.then(response => response.json())
+			// TODO handle non-200 here, will be in result.status
+			.then(result => set(dumbometer, result.stupidity))
+	}
+	function set(dumbometer, to) {
+		dumbometer.setCurrentValue(to);
+		console.log(dumbometer._value.current)
 	}
 	function increase(dumbometer) {
-		dumbometer.setCurrentValue(dumbometer._value.current+1);
+		dumbometer.setCurrentValue(dumbometer._value.current + 1);
 		console.log(dumbometer._value.current)
 	}
 </script>
