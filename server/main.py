@@ -8,6 +8,7 @@ stupidity = 13
 def up():
     global stupidity
     stupidity += 1
+
     response = make_response({'stupidity': stupidity})
     # FIXME
     response.headers['Access-Control-Allow-Origin'] = '*'
@@ -15,13 +16,20 @@ def up():
 
 @app.route('/get')
 def get():
-    return jsonify({'stupidity': stupidity})
+    response = make_response({'stupidity': stupidity})
+    # FIXME
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
 
 @app.route('/reset')
 def reset():
     global stupidity
     stupidity = 13
-    return '', 200
+
+    response = make_response({'stupidity': stupidity})
+    # FIXME
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
 
 if __name__ == '__main__':
     app.run()

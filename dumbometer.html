@@ -35,15 +35,54 @@
 </div>
 
 <div class="controls">
-	<a href="#" onclick="hit_api(thermometer)">
+	<a href="#" onclick="ask_server_to_increase(thermometer)">
 		<img src="up.png" />
 	</a>
 </div>
 
 <!-- Scripts -->
 
+<!-- Requirements -->
 <script src="d3/d3.v7.min.js"></script>
 <script src="d3-thermometer/thermometer.min.js"></script>
+
+<!-- Communication with server -->
+<script>
+	var url = "http://localhost:5000"
+	function ask_server_to_increase(dumbometer) {
+		fetch(url + '/up')
+			.then(response => check(response))
+			.then(response => response.json())
+			.then(body => set(dumbometer, body.stupidity))
+			.catch(err => console.log(err));
+	}
+	function ask_server_to_update(dumbometer) {
+		fetch(url + '/get')
+			.then(response => check(response))
+			.then(response => response.json())
+			.then(body => set(dumbometer, body.stupidity))
+			.catch(err => console.log(err));
+	}
+
+	function check(response) {
+		if (response.status != 200) {
+			throw new Error(`Received ${response.status} from API`);
+		} else {
+			return response
+		}
+	}
+
+	function set(dumbometer, to) {
+		dumbometer.setCurrentValue(to);
+		console.log(dumbometer._value.current)
+	}
+	function increase(dumbometer) {
+		dumbometer.setCurrentValue(dumbometer._value.current + 1);
+		console.log(dumbometer._value.current)
+	}
+</script>
+
+<!-- Rendering -->
 <script>
 	var thermometer = new Thermometer({
 		width: 400,
@@ -61,35 +100,8 @@
 	// container, currentTemp, minTemp, maxTemp
 	thermometer.render(container, 11, 1, 100);
 
-	thermometer.setCurrentValue(13);
+	ask_server_to_update(thermometer);
 
-</script>
-
-<script>
-	var url = "http://localhost:5000"
-	function hit_api(dumbometer) {
-		fetch(url + '/up')
-			.then(response => check(response))
-			.then(response => response.json())
-			.then(body => set(dumbometer, body.stupidity))
-			.catch(err => console.log(err));
-	}
-	function check(response) {
-		if (response.status != 200) {
-			throw new Error(`Received ${response.status} from API`);
-		} else {
-			return response
-		}
-	}
-
-	function set(dumbometer, to) {
-		dumbometer.setCurrentValue(to);
-		console.log(dumbometer._value.current)
-	}
-	function increase(dumbometer) {
-		dumbometer.setCurrentValue(dumbometer._value.current + 1);
-		console.log(dumbometer._value.current)
-	}
 </script>
 
 </body>
