@@ -2,7 +2,7 @@ from flask import Flask, make_response, jsonify
 
 app = Flask(__name__)
 
-stupidity = 0
+stupidity = 13
 
 @app.route('/up')
 def up():
@@ -20,7 +20,7 @@ def get():
 @app.route('/reset')
 def reset():
     global stupidity
-    stupidity = 0
+    stupidity = 13
     return '', 200
 
 if __name__ == '__main__':
