@@ -102,11 +102,11 @@
 
 	// Update the dumbometer once at the start
 	ask_server_to_update(thermometer);
-	// Start updating the dumbometer every 5 minutes
+	// Start updating the dumbometer every second
 	var timer = setInterval(
 		function() {
 			ask_server_to_update(thermometer);
-		}, 1*1000*60
+		}, 1*1000
 	)
 
 </script>
