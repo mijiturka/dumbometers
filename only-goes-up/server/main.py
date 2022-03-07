@@ -10,15 +10,13 @@ def up():
     stupidity += 1
 
     response = make_response({'stupidity': stupidity})
-    # FIXME
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Origin'] = 'https://mayonesia.net'
     return response
 
 @app.route('/get')
 def get():
     response = make_response({'stupidity': stupidity})
-    # FIXME
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Origin'] = 'https://mayonesia.net'
     return response
 
 @app.route('/reset')
@@ -27,8 +25,7 @@ def reset():
     stupidity = 13
 
     response = make_response({'stupidity': stupidity})
-    # FIXME
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Origin'] = 'https://mayonesia.net'
     return response
 
 if __name__ == '__main__':
