@@ -38,7 +38,9 @@ def up_mystical():
 
 @app.route('/get')
 def get():
-    return read()
+    response = make_response(read())
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8000'
+    return response
 
 @app.route('/reset')
 def reset():

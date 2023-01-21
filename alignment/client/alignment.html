@@ -5,7 +5,10 @@
   <title>Dumbometer - Stupid Movie Nights</title>
 </head>
 
+<!-- Communication with server -->
 <script>
+  // Local copy of the result. We'll use that for display
+  // and update it with the server periodically
   var grades = {
     lawful_good: 0,
     stupid_good: 0,
@@ -17,13 +20,54 @@
     stupid_evil: 0,
     chaotic_evil: 0,
     mystical: 0,
-  }
+  };
   var alignments = Object.keys(grades);
+
+	var url = "http://localhost:5000"
+  // TODO
+	// function ask_server_to_increase(dumbometer) {
+	// 	fetch(url + '/up')
+	// 		.then(response => check(response))
+	// 		.then(response => response.json())
+	// 		.then(body => set(dumbometer, body.stupidity))
+	// 		.catch(err => console.log(err));
+	// }
+	function ask_server_to_update(dumbometer) {
+		fetch(url + '/get')
+			.then(response => check(response))
+			.then(response => response.json())
+			.then(body => set(dumbometer, body))
+			.catch(err => console.log(err));
+	}
+
+	function check(response) {
+		if (response.status != 200) {
+			throw new Error(`Received ${response.status} from API`);
+		} else {
+			return response
+		}
+	}
+
+	function set(dumbometer, to) {
+    for (var i=0; i<alignments.length; i++) {
+      var alignment = alignments[i];
+      if (dumbometer[alignment] != to[alignment]) {
+        dumbometer[alignment] = to[alignment]
+        // TODO when calling this when first loading the page, we don't want to display the large-size value change
+        update(alignment)
+      }
+    }
+
+	}
 
   function increment(category) {
     ++grades[category];
     update(category);
   }
+</script>
+
+<!-- Rendering -->
+<script>
 
   function update(category) {
     // Update the top-left-corner counter which is displayed all the time
@@ -74,6 +118,16 @@
   function output_result() {
     document.getElementById("result").innerHTML = JSON.stringify(grades);
   }
+
+  // Update the dumbometer once at the start
+	ask_server_to_update(grades);
+	// Start updating the dumbometer every second
+	var timer = setInterval(
+		function() {
+			ask_server_to_update(grades);
+		}, 1*1000
+	)
+
 </script>
 
 <div class="board">
