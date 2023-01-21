@@ -23,17 +23,10 @@
   };
   var alignments = Object.keys(grades);
 
-	var url = "http://localhost:5000"
-  // TODO
-	// function ask_server_to_increase(dumbometer) {
-	// 	fetch(url + '/up')
-	// 		.then(response => check(response))
-	// 		.then(response => response.json())
-	// 		.then(body => set(dumbometer, body.stupidity))
-	// 		.catch(err => console.log(err));
-	// }
+	var base_url = "http://localhost:5000"
+
 	function ask_server_to_update(dumbometer) {
-		fetch(url + '/get')
+		fetch(base_url + '/get')
 			.then(response => check(response))
 			.then(response => response.json())
 			.then(body => set(dumbometer, body))
@@ -60,7 +53,24 @@
 
 	}
 
+  function ask_server_to_increase(dumbometer, category) {
+    let [first_metric, second_metric] = category.split('_')
+    if (second_metric == undefined) {
+      // Happens on the "mystical" category
+      url = base_url + '/up/' + first_metric
+    } else {
+      url = base_url + '/up/' + first_metric + '/' +second_metric
+    }
+
+    fetch(url)
+      .then(response => check(response))
+      .then(response => response.json())
+      .then(body => set(dumbometer, body))
+      .catch(err => console.log(err));
+  }
+
   function increment(category) {
+    ask_server_to_increase(grades, category)
     ++grades[category];
     update(category);
   }

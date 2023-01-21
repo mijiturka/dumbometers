@@ -1,6 +1,6 @@
 import json
 import pathlib
-from flask import Flask, make_response, jsonify
+from flask import Flask, abort, make_response, jsonify
 
 app = Flask(__name__)
 
@@ -26,7 +26,9 @@ def up(first_metric, second_metric):
     so_far[f'{first_metric}_{second_metric}'] += 1
     write(so_far)
 
-    return so_far
+    response = make_response(so_far)
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8000'
+    return response
 
 @app.route('/up/mystical')
 def up_mystical():
