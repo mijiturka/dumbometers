@@ -25,6 +25,13 @@
     update(category);
   }
 
+  function update(category) {
+    // Update the top-left-corner counter which is displayed all the time
+    document.getElementById("box__counter__"+category).innerHTML = grades[category];
+    // Now take over the box to display the fact that we're voting
+    display_update(category);
+  }
+
   function display_update(category) {
     if (category === "mystical") {
       images = document.getElementsByClassName("box__image")
@@ -62,11 +69,6 @@
       },
       1000
     );
-  }
-
-  function update(category) {
-    document.getElementById("box__counter__"+category).innerHTML = grades[category];
-    display_update(category);
   }
 
   function output_result() {
